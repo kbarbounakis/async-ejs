@@ -114,7 +114,9 @@ exports.render = function(src, options, callback) {
 				var name = arg.shift();
 				
 				arg.push(next.parallel());
-				fns[name].apply(fns, arg);
+                //date:2014-11-12
+                //change: set options.locals as the current object instance
+				fns[name].apply(fns, options.locals);
 			});
 		},
 		function(results, next) {
