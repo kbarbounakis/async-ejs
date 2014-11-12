@@ -42,15 +42,41 @@ exports.renderFile = function(filename, options, callback) {
 		exports.render(src, options, callback);
 	}));
 };
+
+//date:2014-11-12
+//change: ensure Object.getPrototypeOf() extension (browser support)
+if(!Object.getPrototypeOf) {
+    if(({}).__proto__===Object.prototype&&([]).__proto__===Array.prototype) {
+        Object.getPrototypeOf=function getPrototypeOf(object) {
+            return object.__proto__;
+        };
+    } else {
+        Object.getPrototypeOf=function getPrototypeOf(object) {
+            // May break if the constructor has been changed or removed
+            return object.constructor?object.constructor.prototype:void 0;
+        };
+    }
+}
+
 exports.render = function(src, options, callback) {
 	if (!callback) {
 		callback = options;
 		options = {};
 	}
-
 	options.locals = options.locals || {};
-	
-	var fns = options.fns;
+	//date:2014-11-12
+    //change: get async methods from options.locals object
+    //get prototype of options.local
+    var fns = options.fns || { },
+        proto = Object.getPrototypeOf(options.locals);
+    if (proto) {
+        var keys = Object.keys(proto);
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            if (typeof proto[key] === 'function')
+                fns[key] = proto[key];
+        }
+    }
 
 	if (!fns) {
 		options.fns = fns = {};
