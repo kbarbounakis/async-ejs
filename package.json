@@ -1,11 +1,17 @@
 {
- "name":"async-ejs",
- "version":"0.1.7",
- "description":"ejs with the ability to add asynchronous functions",
- "author":[
-   "Mathias Buus Madsen <mathiasbuus@gmail.com>",
-   "Ian Jørgensen <jorgensen.ian@gmail.com>"
- ],
- "dependencies":{"common":">=0.1.4","ejs":">=0.1.0"},
- "main":"./index.js"
+  "name": "async-ejs",
+  "version": "0.1.6",
+  "description": "ejs with the ability to add asynchronous functions",
+  "author": "",
+  "dependencies": {
+    "common": ">=0.1.0",
+    "ejs": ">=0.1.0"
+  },
+  "main": "./index.js",
+  "readme": "# async-ejs\nejs with the ability to add asynchronous functions\n\n## Install \n\t    \n\tnpm install async-ejs\n\n## Usage\nSay you have\n \n\t/index.ejs\n\t/base.ejs\n\nIf base wants to load the content of index.ejs it can do\n\n```js\nTemplate stuff here\n<%- file('index.ejs') %>\nmore template stuff\n```\t\n\nOn the server you need to \n\n```js\nvar aejs = require('async-ejs');\n\naejs.renderFile('./base.ejs', function(err, result) {\n\t// yay async!\n});\n```\t\n\n## Interface\nrender a string\n\n```js\naejs.render(src, options?, callback);\n```\n\nrender a file\n\n```js\naejs.renderFile(filename, options?, callback);\n```\n\nadd a function to render\n\n```js\naejs.add(name,fn);\n```\n\n## Example\nCall a unix command from a template and \n\n```js\nvar aejs = require('async-ejs').add(exec,require('child_process').exec);\n```\n\nnow you in your template you can call any unix process and render its output\n\n\tTemplate stuff\n\tTime: <%- exec('date') %>\n\tLoad CNN: <%- exec('curl -L cnn.com') %>\n\tLoad another template: <%- file('filename') %>\n\tMore template stuff",
+  "readmeFilename": "README.md",
+  "_id": "async-ejs@0.1.6",
+  "_shasum": "a949ac183ad416c6fd4b71cb5ec1e93c331a60c6",
+  "_from": "async-ejs@",
+  "_resolved": "https://registry.npmjs.org/async-ejs/-/async-ejs-0.1.6.tgz"
 }
